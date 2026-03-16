@@ -41,7 +41,7 @@ const ReceiverDashboard = () => {
                 },
             };
 
-            await axios.post('http://localhost:5000/api/requests', formData, config);
+            await axios.post('http://localhost:5001/api/requests', formData, config);
             setMessage('Food request submitted successfully!');
             setFormData({
                 foodTypeRequired: '',

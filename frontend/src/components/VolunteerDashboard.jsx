@@ -13,7 +13,7 @@ const VolunteerDashboard = () => {
             try {
                 // In a real app we would get deliveries or available donations.
                 // For this demo, let's just fetch all donations to show available deliveries
-                const response = await axios.get('http://localhost:5000/api/donations');
+                const response = await axios.get('http://localhost:5001/api/donations');
 
                 // Filter only available ones for volunteering
                 setDeliveries(response.data.filter(d => d.status === 'available'));

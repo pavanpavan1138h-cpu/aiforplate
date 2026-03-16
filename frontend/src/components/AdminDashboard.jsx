@@ -17,9 +17,9 @@ const AdminDashboard = () => {
         const fetchData = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const donData = await axios.get('http://localhost:5000/api/donations', config);
-                const reqData = await axios.get('http://localhost:5000/api/requests', config);
-                const delData = await axios.get('http://localhost:5000/api/deliveries', config);
+                const donData = await axios.get('http://localhost:5001/api/donations', config);
+                const reqData = await axios.get('http://localhost:5001/api/requests', config);
+                const delData = await axios.get('http://localhost:5001/api/deliveries', config);
 
                 // Mock calculation of 'saved meals' by assuming quantity strings hold a number
                 const mealCount = donData.data
