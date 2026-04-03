@@ -14,21 +14,21 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Custom AI-themed icons
-const donorIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+// Custom AI-themed animated icons
+const donorIcon = new L.divIcon({
+    className: 'custom-div-wrapper',
+    html: '<div class="animated-marker donor"></div>',
+    iconSize: [25, 25],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, -15],
 });
 
-const receiverIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+const receiverIcon = new L.divIcon({
+    className: 'custom-div-wrapper',
+    html: '<div class="animated-marker receiver"></div>',
+    iconSize: [25, 25],
+    iconAnchor: [12, 12],
+    popupAnchor: [0, -15],
 });
 
 const MapPage = () => {

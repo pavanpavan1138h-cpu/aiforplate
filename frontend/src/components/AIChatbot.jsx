@@ -100,7 +100,7 @@ const AIChatbot = () => {
             {/* Floating Action Button */}
             <button
                 onClick={toggleChat}
-                className="w-14 h-14 bg-gradient-to-r from-primaryGreen to-accentOrange rounded-full text-white shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-primaryGreen/30"
+                className="w-14 h-14 bg-gradient-to-r from-primaryGreen to-accentOrange rounded-full text-white shadow-[0_0_20px_10px_rgba(16,185,129,0.3)] animate-pulse hover:shadow-[0_0_30px_15px_rgba(16,185,129,0.6)] hover:scale-110 transition-all duration-300 flex items-center justify-center focus:outline-none focus:ring-4 focus:ring-primaryGreen/30"
             >
                 {isOpen ? (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
