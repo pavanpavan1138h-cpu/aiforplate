@@ -1,11 +1,12 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import DonorDashboard from '../components/DonorDashboard';
 import ReceiverDashboard from '../components/ReceiverDashboard';
 import VolunteerDashboard from '../components/VolunteerDashboard';
 import AdminDashboard from '../components/AdminDashboard';
-// Import other dashboards here as they are built
+import UrgentAlerts from '../components/UrgentAlerts';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -25,18 +26,41 @@ const Dashboard = () => {
             case 'admin':
                 return <AdminDashboard />;
             default:
-                return <div>Invalid Role Dashboard</div>;
+                return <div className="glass p-8 text-center text-red-500 font-bold">Invalid Role: {user.role}</div>;
         }
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900">Welcome, {user.name}!</h1>
-                <p className="text-gray-600">You are logged in as a <span className="font-semibold capitalize text-primary-green">{user.role}</span>.</p>
-            </div>
+        <div className="container mx-auto px-4 pt-32 pb-20">
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-12"
+            >
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h1 className="text-4xl font-black text-gray-800 dark:text-white tracking-tight">
+                            Welcome back, <span className="text-primaryGreen">{user.name.split(' ')[0]}</span>!
+                        </h1>
+                        <p className="text-gray-500 dark:text-gray-400 font-medium mt-2">
+                            Helping the world as a <span className="capitalize font-black text-gray-700 dark:text-gray-200">{user.role}</span>
+                        </p>
+                    </div>
+                    <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-widest text-gray-400 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-full">
+                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
+                        Status: Active Network
+                    </div>
+                </div>
+            </motion.div>
 
-            {renderDashboard()}
+            {/* Show Urgent Alerts for relevant roles */}
+            {['volunteer', 'donor', 'admin'].includes(user.role) && (
+                <UrgentAlerts />
+            )}
+
+            <div className="grid grid-cols-1 gap-8">
+                {renderDashboard()}
+            </div>
         </div>
     );
 };

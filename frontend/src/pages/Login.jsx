@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -34,33 +35,45 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Sign in to your account
-                </h2>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                    Or{' '}
-                    <Link to="/register" className="font-medium text-primary-green hover:text-green-500">
-                        register for a new account
-                    </Link>
-                </p>
+        <div className="min-h-screen bg-white dark:bg-darkBg transition-colors duration-300 flex items-center justify-center p-4 relative overflow-hidden pt-24">
+
+            {/* Animated Background Blobs */}
+            <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primaryGreen/20 rounded-full blur-3xl animate-blob"></div>
+                <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-accentOrange/20 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
             </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-md relative z-10"
+            >
+                <div className="glass-card p-8 md:p-10">
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl md:text-4xl font-black text-gray-800 dark:text-white mb-3 tracking-tight">
+                            Welcome Back
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-400 font-medium">
+                            Join the fight against food waste
+                        </p>
+                    </div>
+
                     <form className="space-y-6" onSubmit={handleSubmit}>
                         {error && (
-                            <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                                <span className="block sm:inline">{error}</span>
-                            </div>
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="bg-red-500/10 border border-red-500/50 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm font-semibold text-center"
+                            >
+                                {error}
+                            </motion.div>
                         )}
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Email Address</label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaEnvelope className="text-gray-400" />
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Email Address</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                                    <FaEnvelope />
                                 </div>
                                 <input
                                     name="email"
@@ -68,16 +81,17 @@ const Login = () => {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="focus:ring-primary-green focus:border-primary-green block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
+                                    placeholder="Enter your email"
+                                    className="glass-input pl-12"
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Password</label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <FaLock className="text-gray-400" />
+                        <div className="space-y-2">
+                            <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Password</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-gray-400">
+                                    <FaLock />
                                 </div>
                                 <input
                                     name="password"
@@ -85,23 +99,31 @@ const Login = () => {
                                     required
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="focus:ring-primary-green focus:border-primary-green block w-full pl-10 sm:text-sm border-gray-300 rounded-md py-2 px-3 border"
+                                    placeholder="••••••••"
+                                    className="glass-input pl-12"
                                 />
                             </div>
                         </div>
 
-                        <div>
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-green hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-green transition"
-                            >
-                                {loading ? 'Signing in...' : 'Sign In'}
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="glass-button w-full py-4 text-lg mt-4 shadow-primaryGreen/20"
+                        >
+                            {loading ? 'Authenticating...' : 'Sign In'}
+                        </button>
                     </form>
+
+                    <div className="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800 text-center">
+                        <p className="text-gray-600 dark:text-gray-400 font-medium">
+                            New here?{' '}
+                            <Link to="/register" className="text-primaryGreen dark:text-green-400 font-bold hover:underline underline-offset-4">
+                                Create an account
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 };

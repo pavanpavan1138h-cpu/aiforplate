@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MapPage from './pages/MapPage';
+import Community from './pages/Community';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/community" element={<Community />} />
           </Routes>
         </Layout>
       </Router>
