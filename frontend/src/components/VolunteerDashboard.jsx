@@ -8,6 +8,7 @@ const VolunteerDashboard = () => {
     const { user } = useAuth();
     const [deliveries, setDeliveries] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [activeDelivery, setActiveDelivery] = useState(null);
 
     useEffect(() => {
         const fetchDeliveries = async () => {
@@ -24,10 +25,9 @@ const VolunteerDashboard = () => {
         fetchDeliveries();
     }, []);
 
-    const handleAcceptDelivery = async (donationId) => {
-        alert("Delivery accepted! Our AI matching engine is assigning this task to you.");
+    const handleAcceptDelivery = async (donation) => {
         // Simulated API call success
-        setDeliveries(prev => prev.filter(d => d._id !== donationId));
+        setActiveDelivery(donation);
     };
 
     if (loading) return (
@@ -39,6 +39,77 @@ const VolunteerDashboard = () => {
 
     return (
         <div className="space-y-8">
+            {activeDelivery ? (
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="glass-card shadow-2xl p-8 overflow-hidden relative"
+                >
+                    <div className="absolute top-0 inset-x-0 h-1 flex">
+                        <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: '45%' }}
+                            transition={{ duration: 1.5, ease: 'easeOut' }}
+                            className="bg-primaryGreen"
+                        ></motion.div>
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-700"></div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <span className="bg-primaryGreen/20 text-primaryGreen px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest border border-primaryGreen/30 animate-pulse">Live Mission</span>
+                            <h2 className="text-3xl font-black text-gray-800 dark:text-white mt-4 tracking-tight">Active Delivery</h2>
+                        </div>
+                        <button 
+                            onClick={() => {
+                                setDeliveries(prev => prev.filter(d => d._id !== activeDelivery._id));
+                                setActiveDelivery(null);
+                            }}
+                            className="glass-button !bg-red-500/10 text-red-500 hover:text-white hover:!bg-red-500 border-none transition-colors"
+                        >
+                            Complete Delivery
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div className="space-y-6 flex flex-col justify-center">
+                            <div className="glass p-6 rounded-2xl flex items-start space-x-4 border-l-4 border-l-primaryGreen">
+                                <div className="p-3 bg-primaryGreen/20 text-primaryGreen rounded-xl text-xl flex-shrink-0">
+                                    <FaMapMarkerAlt />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Pickup Route</p>
+                                    <p className="font-bold text-gray-800 dark:text-gray-100 text-lg leading-tight">{activeDelivery.pickupLocation?.address || 'Detecting Location...'}</p>
+                                    <p className="text-sm font-semibold text-primaryGreen mt-2">1.2 km away • 4 mins driving</p>
+                                </div>
+                            </div>
+                            <div className="ml-8 border-l-2 border-dashed border-gray-300 dark:border-gray-600 h-8"></div>
+                            <div className="glass p-6 rounded-2xl flex items-start space-x-4 border-l-4 border-l-blue-500">
+                                <div className="p-3 bg-blue-500/20 text-blue-500 rounded-xl text-xl flex-shrink-0">
+                                    <FaBoxOpen />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Package Details</p>
+                                    <p className="font-bold text-gray-800 dark:text-gray-100 text-lg leading-tight">{activeDelivery.foodType}</p>
+                                    <p className="text-sm font-semibold text-blue-500 mt-2">Quantity: {activeDelivery.quantity}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-100 dark:bg-gray-800 rounded-3xl min-h-[300px] flex items-center justify-center relative overflow-hidden group shadow-inner">
+                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                            <div className="z-10 flex flex-col items-center justify-center p-6 text-center h-full">
+                                <div className="w-20 h-20 bg-primaryGreen/20 text-primaryGreen rounded-full flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+                                    <FaMapMarkerAlt className="animate-bounce" />
+                                </div>
+                                <h3 className="text-xl font-black text-gray-800 dark:text-white">Route Visualizer</h3>
+                                <p className="text-gray-500 dark:text-gray-400 font-medium text-sm mt-2 max-w-xs">GPS navigation to pickup and dropoff is active. Drive safely!</p>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            ) : (
+                <>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-3xl font-black text-gray-800 dark:text-white tracking-tight">Available Tasks</h2>
@@ -125,7 +196,7 @@ const VolunteerDashboard = () => {
                                     </div>
 
                                     <button
-                                        onClick={() => handleAcceptDelivery(donation._id)}
+                                        onClick={() => handleAcceptDelivery(donation)}
                                         className="mt-auto glass-button group/btn flex items-center justify-center space-x-2 overflow-hidden"
                                     >
                                         <span className="relative z-10">Accept Mission</span>
@@ -135,6 +206,8 @@ const VolunteerDashboard = () => {
                         ))}
                     </AnimatePresence>
                 </div>
+            )}
+            </>
             )}
         </div>
     );

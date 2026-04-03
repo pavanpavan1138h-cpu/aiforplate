@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import L from 'leaflet';
@@ -36,6 +36,7 @@ const MapPage = () => {
     const [requests, setRequests] = useState([]);
     const [deliveries, setDeliveries] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isHeatmapView, setIsHeatmapView] = useState(false);
 
     const defaultCenter = [37.7749, -122.4194];
 
@@ -101,14 +102,21 @@ const MapPage = () => {
                     transition={{ delay: 0.1 }}
                     className="glass h-14 px-6 rounded-2xl flex items-center space-x-4 shadow-2xl self-start"
                 >
+                    <button 
+                        onClick={() => setIsHeatmapView(!isHeatmapView)}
+                        className={`flex items-center space-x-2 px-3 py-1 rounded-lg text-xs font-black uppercase tracking-widest transition-colors ${isHeatmapView ? 'bg-accentOrange text-white' : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-800 dark:text-white'}`}
+                    >
+                        <FaLayerGroup className="mr-1" /> Heatmap
+                    </button>
+                    <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
                     <div className="flex items-center space-x-2">
-                        <span className="w-3 h-3 bg-primaryGreen rounded-full shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-800 dark:text-white">Donations</span>
+                        <span className="w-3 h-3 bg-primaryGreen flex-shrink-0 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.8)]"></span>
+                        <span className="text-xs font-black uppercase tracking-widest text-gray-800 dark:text-white hidden md:inline">Donations</span>
                     </div>
                     <div className="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
                     <div className="flex items-center space-x-2">
-                        <span className="w-3 h-3 bg-accentOrange rounded-full shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>
-                        <span className="text-xs font-black uppercase tracking-widest text-gray-800 dark:text-white">Requests</span>
+                        <span className="w-3 h-3 bg-accentOrange flex-shrink-0 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>
+                        <span className="text-xs font-black uppercase tracking-widest text-gray-800 dark:text-white hidden md:inline">Requests</span>
                     </div>
                 </motion.div>
             </div>
@@ -152,10 +160,24 @@ const MapPage = () => {
                         return null;
                     })}
 
-                    {/* Donations */}
                     {filteredDonations.map(donation => {
                         const lat = donation.pickupLocation?.lat || (defaultCenter[0] + (Math.random() - 0.5) * 0.05);
                         const lng = donation.pickupLocation?.lng || (defaultCenter[1] + (Math.random() - 0.5) * 0.05);
+
+                        if (isHeatmapView) {
+                            return (
+                                <CircleMarker 
+                                    key={`heat-${donation._id}`} 
+                                    center={[lat, lng]} 
+                                    radius={25} 
+                                    pathOptions={{
+                                        fillColor: '#ef4444',
+                                        fillOpacity: 0.35,
+                                        color: 'transparent'
+                                    }} 
+                                />
+                            );
+                        }
 
                         return (
                             <Marker key={donation._id} position={[lat, lng]} icon={donorIcon}>

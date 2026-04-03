@@ -16,7 +16,8 @@ const DonorDashboard = () => {
             address: '',
             lat: 0,
             lng: 0,
-        }
+        },
+        image: null
     });
 
     const [loading, setLoading] = useState(false);
@@ -31,6 +32,12 @@ const DonorDashboard = () => {
             });
         } else {
             setFormData({ ...formData, [e.target.name]: e.target.value });
+        }
+    };
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setFormData({ ...formData, image: e.target.files[0] });
         }
     };
 
@@ -93,7 +100,8 @@ const DonorDashboard = () => {
                 description: '',
                 pickupTime: '',
                 expiryTime: '',
-                pickupLocation: { address: '', lat: 0, lng: 0 }
+                pickupLocation: { address: '', lat: 0, lng: 0 },
+                image: null
             });
         } catch (err) {
             setMessage({ text: 'Error submitting donation. Please try again.', type: 'error' });
@@ -182,6 +190,30 @@ const DonorDashboard = () => {
                         placeholder="e.g., Contains nuts, needs refrigeration, vegetarian only"
                         className="glass-input min-h-[100px]"
                     ></textarea>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700 dark:text-gray-300 ml-1">Food Image</label>
+                    <div className="relative border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center hover:border-primaryGreen dark:hover:border-primaryGreen transition-colors flex flex-col items-center justify-center cursor-pointer overflow-hidden glass">
+                        <input 
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleImageChange}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        />
+                        {formData.image ? (
+                            <div className="flex flex-col items-center text-primaryGreen font-bold space-y-2">
+                                <span className="w-12 h-12 bg-primaryGreen/20 flex items-center justify-center rounded-full text-2xl">✓</span>
+                                <p>{formData.image.name}</p>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center text-gray-500 dark:text-gray-400 space-y-2">
+                                <span className="text-3xl">📸</span>
+                                <p className="font-bold">Click or drag image to upload</p>
+                                <p className="text-xs">Supports JPG, PNG (Max 5MB)</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="space-y-2">
