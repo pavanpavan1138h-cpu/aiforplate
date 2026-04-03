@@ -13,7 +13,7 @@ const VolunteerDashboard = () => {
     useEffect(() => {
         const fetchDeliveries = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/donations');
+                const response = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/donations`);
                 setDeliveries(response.data.filter(d => d.status === 'available'));
             } catch (error) {
                 console.error("Error fetching available deliveries", error);

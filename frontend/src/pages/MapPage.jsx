@@ -44,7 +44,7 @@ const MapPage = () => {
         const fetchData = async () => {
             try {
                 // Use fallback to 5001 if 5000 fails (from truncated logs context)
-                const baseUrl = 'http://localhost:5001/api';
+                const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5001/api');
                 const [donationsRes, requestsRes, deliveriesRes] = await Promise.all([
                     axios.get(`${baseUrl}/donations`),
                     axios.get(`${baseUrl}/requests`),

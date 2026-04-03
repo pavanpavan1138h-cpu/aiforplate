@@ -92,7 +92,7 @@ const DonorDashboard = () => {
                 },
             };
 
-            await axios.post('http://localhost:5001/api/donations', formData, config);
+            await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/donations`, formData, config);
             setMessage({ text: 'Donation submitted successfully! Thank you for your generosity.', type: 'success' });
             setFormData({
                 foodType: '',

@@ -83,7 +83,7 @@ const ReceiverDashboard = () => {
                 },
             };
 
-            await axios.post('http://localhost:5001/api/requests', formData, config);
+            await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/requests`, formData, config);
             setMessage({ text: 'Food request submitted successfully! We are matching you with donors.', type: 'success' });
             setFormData({
                 foodTypeRequired: '',

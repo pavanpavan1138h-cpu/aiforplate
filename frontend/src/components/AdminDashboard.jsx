@@ -41,8 +41,8 @@ const AdminDashboard = () => {
         const fetchData = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const donData = await axios.get('http://localhost:5001/api/donations', config);
-                const reqData = await axios.get('http://localhost:5001/api/requests', config);
+                const donData = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/donations`, config);
+                const reqData = await axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:5001/api'}/requests`, config);
 
                 // Mock calculation of 'saved meals'
                 const mealCount = donData.data
