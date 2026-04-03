@@ -12,6 +12,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import MapPage from './pages/MapPage';
 import Community from './pages/Community';
+import About from './pages/About';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Routes>
         </Layout>
       </Router>

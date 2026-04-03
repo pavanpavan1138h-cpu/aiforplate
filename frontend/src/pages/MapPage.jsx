@@ -38,7 +38,7 @@ const MapPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [isHeatmapView, setIsHeatmapView] = useState(false);
 
-    const defaultCenter = [37.7749, -122.4194];
+    const defaultCenter = [12.9716, 77.5946]; // Bangalore, Karnataka
 
     useEffect(() => {
         const fetchData = async () => {
