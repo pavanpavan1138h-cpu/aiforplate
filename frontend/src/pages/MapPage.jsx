@@ -130,8 +130,10 @@ const MapPage = () => {
                     style={{ height: '100%', width: '100%' }}
                 >
                     <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                        attribution='Map data &copy; <a href="https://www.google.com/maps">Google</a>'
+                        url="https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+                        maxZoom={20}
+                        subdomains={['mt0', 'mt1', 'mt2', 'mt3']}
                     />
 
                     {/* Deliveries (Routes) */}
